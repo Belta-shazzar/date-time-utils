@@ -4,7 +4,7 @@ plugins {
     id 'signing'
 }
 
-group = 'com.shazzar'
+group = 'io.github.belta-shazzar'
 version = '1.0.0'
 description = 'A simple DateTime utilities library for Java'
 
@@ -22,7 +22,7 @@ repositories {
 }
 
 dependencies {
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.10.2'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
@@ -36,12 +36,12 @@ publishing {
         mavenJava(MavenPublication) {
             from components.java
 
-            artifactId = 'datetime-utils'
+            artifactId = 'date-time-utils'
 
             pom {
                 name = 'DateTime Utils'
                 description = 'A simple and intuitive DateTime utilities library for Java'
-                url = 'https://github.com/yourusername/datetime-utils'
+                url = 'https://github.com/Belta-shazzar/date-time-utils'
 
                 licenses {
                     license {
@@ -52,16 +52,16 @@ publishing {
 
                 developers {
                     developer {
-                        id = 'shazzar'
+                        id = 'belta-shazzar'
                         name = 'Daniel Oguejiofor'
                         email = 'nielnonso@gmail.com'
                     }
                 }
 
                 scm {
-                    connection = 'scm:git:git://github.com/yourusername/datetime-utils.git'
-                    developerConnection = 'scm:git:ssh://github.com/yourusername/datetime-utils.git'
-                    url = 'https://github.com/yourusername/datetime-utils'
+                    connection = 'scm:git:git://github.com/Belta-shazzar/date-time-utils.git'
+                    developerConnection = 'scm:git:ssh://github.com/Belta-shazzar/date-time-utils.git'
+                    url = 'https://github.com/Belta-shazzar/date-time-utils'
                 }
             }
         }
