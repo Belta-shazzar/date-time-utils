@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'io.github.belta-shazzar'
-version = '1.0.0'
+version = '1.0.1'
 description = 'A simple DateTime utilities library for Java'
 
 java {
@@ -33,56 +33,22 @@ tasks.named('test') {
 // Maven Publishing Configuration
 publishing {
     publications {
-        mavenJava(MavenPublication) {
+        gpr(MavenPublication) {
             from components.java
-
-            artifactId = 'date-time-utils'
-
-            pom {
-                name = 'DateTime Utils'
-                description = 'A simple and intuitive DateTime utilities library for Java'
-                url = 'https://github.com/Belta-shazzar/date-time-utils'
-
-                licenses {
-                    license {
-                        name = 'The Apache License, Version 2.0'
-                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-                    }
-                }
-
-                developers {
-                    developer {
-                        id = 'belta-shazzar'
-                        name = 'Daniel Oguejiofor'
-                        email = 'nielnonso@gmail.com'
-                    }
-                }
-
-                scm {
-                    connection = 'scm:git:git://github.com/Belta-shazzar/date-time-utils.git'
-                    developerConnection = 'scm:git:ssh://github.com/Belta-shazzar/date-time-utils.git'
-                    url = 'https://github.com/Belta-shazzar/date-time-utils'
-                }
-            }
+            groupId = "io.github.belta-shazzar"
+            artifactId = "date-time-utils"
+            version = project.version
         }
     }
 
     repositories {
         maven {
-            name = "OSSRH"
-            def releasesRepoUrl = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
-            def snapshotsRepoUrl = "https://s01.oss.sonatype.org/content/repositories/snapshots/"
-            url = version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
-
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/Belta-shazzar/date-time-utils")
             credentials {
-                username = project.findProperty("ossrhUsername") ?: System.getenv("OSSRH_USERNAME")
-                password = project.findProperty("ossrhPassword") ?: System.getenv("OSSRH_PASSWORD")
+                username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
+                password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
             }
         }
     }
-}
-
-// Signing configuration (required for Maven Central)
-signing {
-    sign publishing.publications.mavenJava
 }
