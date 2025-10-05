@@ -1,92 +1,161 @@
-# Guide to Publishing to Maven Central
+[//]: # (# Guide to Publishing to Maven Central)
 
-## Step 1: Setup Sonatype Account
+[//]: # ()
+[//]: # (## Step 1: Setup Sonatype Account)
 
-1. Go to https://issues.sonatype.org/
-2. Create a JIRA account
-3. Create a new issue to claim your groupId (e.g., com.yourname)
-    - Project: Community Support - Open Source Project Repository Hosting
-    - Issue Type: New Project
-4. Wait for approval (usually 1-2 business days)
+[//]: # ()
+[//]: # (1. Go to https://issues.sonatype.org/)
 
-## Step 2: Generate GPG Keys
+[//]: # (2. Create a JIRA account)
 
-```bash
-# Generate key
-gpg --gen-key
+[//]: # (3. Create a new issue to claim your groupId &#40;e.g., com.yourname&#41;)
 
-# List keys to get the key ID
-gpg --list-keys
+[//]: # (    - Project: Community Support - Open Source Project Repository Hosting)
 
-# Export public key to key server
-gpg --keyserver keyserver.ubuntu.com --send-keys YOUR_KEY_ID
+[//]: # (    - Issue Type: New Project)
 
-# Export secret key
-gpg --export-secret-keys YOUR_KEY_ID > secring.gpg
-```
+[//]: # (4. Wait for approval &#40;usually 1-2 business days&#41;)
 
-## Step 3: Configure Gradle Properties
+[//]: # ()
+[//]: # (## Step 2: Generate GPG Keys)
 
-Create `~/.gradle/gradle.properties`:
+[//]: # ()
+[//]: # (```bash)
 
-```properties
-ossrhUsername=your-jira-username
-ossrhPassword=your-jira-password
+[//]: # (# Generate key)
 
-signing.keyId=last-8-chars-of-your-key-id
-signing.password=your-key-password
-signing.secretKeyRingFile=/path/to/secring.gpg
-```
+[//]: # (gpg --gen-key)
 
-## Step 4: Publish
+[//]: # ()
+[//]: # (# List keys to get the key ID)
 
-```bash
-# Build and test
-./gradlew clean build test
+[//]: # (gpg --list-keys)
 
-# Publish to staging
-./gradlew publish
+[//]: # ()
+[//]: # (# Export public key to key server)
 
-# Go to https://s01.oss.sonatype.org/#stagingRepositories
-# Find your repository, close it, then release it
-```
+[//]: # (gpg --keyserver keyserver.ubuntu.com --send-keys YOUR_KEY_ID)
 
-## Step 5: Alternative - Publish to GitHub Packages (Easier)
+[//]: # ()
+[//]: # (# Export secret key)
 
-Update `build.gradle`:
+[//]: # (gpg --export-secret-keys YOUR_KEY_ID > secring.gpg)
 
-```gradle
-publishing {
-    repositories {
-        maven {
-            name = "GitHubPackages"
-            url = uri("https://maven.pkg.github.com/yourusername/datetime-utils")
-            credentials {
-                username = project.findProperty("gpr.user") ?: System.getenv("GITHUB_ACTOR")
-                password = project.findProperty("gpr.key") ?: System.getenv("GITHUB_TOKEN")
-            }
-        }
-    }
-}
-```
+[//]: # (```)
 
-Then publish:
-```bash
-./gradlew publish
-```
+[//]: # ()
+[//]: # (## Step 3: Configure Gradle Properties)
 
-## Step 6: Test Your Published Library
+[//]: # ()
+[//]: # (Create `~/.gradle/gradle.properties`:)
 
-```gradle
-repositories {
-    mavenCentral()
-    // or for GitHub Packages
-    maven {
-        url = uri("https://maven.pkg.github.com/yourusername/datetime-utils")
-    }
-}
+[//]: # ()
+[//]: # (```properties)
 
-dependencies {
-    implementation 'com.yourname:datetime-utils:1.0.0'
-}
-```
+[//]: # (ossrhUsername=your-jira-username)
+
+[//]: # (ossrhPassword=your-jira-password)
+
+[//]: # ()
+[//]: # (signing.keyId=last-8-chars-of-your-key-id)
+
+[//]: # (signing.password=your-key-password)
+
+[//]: # (signing.secretKeyRingFile=/path/to/secring.gpg)
+
+[//]: # (```)
+
+[//]: # ()
+[//]: # (## Step 4: Publish)
+
+[//]: # ()
+[//]: # (```bash)
+
+[//]: # (# Build and test)
+
+[//]: # (./gradlew clean build test)
+
+[//]: # ()
+[//]: # (# Publish to staging)
+
+[//]: # (./gradlew publish)
+
+[//]: # ()
+[//]: # (# Go to https://s01.oss.sonatype.org/#stagingRepositories)
+
+[//]: # (# Find your repository, close it, then release it)
+
+[//]: # (```)
+
+[//]: # ()
+[//]: # (## Step 5: Alternative - Publish to GitHub Packages &#40;Easier&#41;)
+
+[//]: # ()
+[//]: # (Update `build.gradle`:)
+
+[//]: # ()
+[//]: # (```gradle)
+
+[//]: # (publishing {)
+
+[//]: # (    repositories {)
+
+[//]: # (        maven {)
+
+[//]: # (            name = "GitHubPackages")
+
+[//]: # (            url = uri&#40;"https://maven.pkg.github.com/yourusername/datetime-utils"&#41;)
+
+[//]: # (            credentials {)
+
+[//]: # (                username = project.findProperty&#40;"gpr.user"&#41; ?: System.getenv&#40;"GITHUB_ACTOR"&#41;)
+
+[//]: # (                password = project.findProperty&#40;"gpr.key"&#41; ?: System.getenv&#40;"GITHUB_TOKEN"&#41;)
+
+[//]: # (            })
+
+[//]: # (        })
+
+[//]: # (    })
+
+[//]: # (})
+
+[//]: # (```)
+
+[//]: # ()
+[//]: # (Then publish:)
+
+[//]: # (```bash)
+
+[//]: # (./gradlew publish)
+
+[//]: # (```)
+
+[//]: # ()
+[//]: # (## Step 6: Test Your Published Library)
+
+[//]: # ()
+[//]: # (```gradle)
+
+[//]: # (repositories {)
+
+[//]: # (    mavenCentral&#40;&#41;)
+
+[//]: # (    // or for GitHub Packages)
+
+[//]: # (    maven {)
+
+[//]: # (        url = uri&#40;"https://maven.pkg.github.com/yourusername/datetime-utils"&#41;)
+
+[//]: # (    })
+
+[//]: # (})
+
+[//]: # ()
+[//]: # (dependencies {)
+
+[//]: # (    implementation 'com.yourname:datetime-utils:1.0.0')
+
+[//]: # (})
+
+[//]: # (```)
